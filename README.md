@@ -1,6 +1,6 @@
 # Sharing your work
 
-Communicating your work clearly is an important aspect of science!
+Communicating your work is an important part of science!
 
 This repo shows you how to set up a simple webpage to share a project and code. 
 
