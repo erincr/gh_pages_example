@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a Project Page · HDS 629</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1a1a2e;
+    --body:     #3d3d5c;
+    --muted:    #7c7c9a;
+    --accent:   #0f4c81;
+    --accent2:  #1a73e8;
+    --surface:  #f4f6fb;
+    --border:   #e2e4ed;
+    --white:    #ffffff;
+    --green:    #16a34a;
+    --amber:    #d97706;
+    --font-serif: 'Lora', Georgia, serif;
+    --font-sans:  'Inter', system-ui, sans-serif;
+    --font-mono:  'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--body);
+    background: var(--white);
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+ul ul {
+  padding-left: 1.5rem;
+}
+
+  /* ── Nav ─────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand {
+    font-family: var(--font-serif);
+    font-size: 1rem; font-weight: 700;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── Hero ────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #f4f6fb 0%, #eef2ff 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: #dbeafe; color: #1d4ed8;
+    padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--ink); line-height: 1.2;
+    max-width: 720px; margin: 0 auto 1rem;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem; color: var(--body);
+    max-width: 600px; margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+  .hero-actions {
+    display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .btn-primary {
+    background: var(--ink); color: #fff;
+    padding: 0.6rem 1.4rem; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline {
+    border: 1.5px solid var(--ink); color: var(--ink);
+    padding: 0.6rem 1.4rem; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: #fff; }
+
+  .stats {
+    display: inline-flex; gap: 0; border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; background: #fff;
+  }
+  .stat {
+    padding: 1rem 1.5rem; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    display: block;
+    font-family: var(--font-serif); font-size: 1.5rem;
+    font-weight: 700; color: var(--ink);
+  }
+  .stat-label {
+    font-size: 0.75rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  /* ── Sections ────────────────────────── */
+  section { padding: 4rem 2rem; }
+  section:nth-child(even) { background: var(--surface); }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .section-intro {
+    color: var(--muted); font-size: 0.95rem;
+    margin-bottom: 2.5rem; max-width: 65ch;
+  }
+
+  /* ── Step cards ──────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 64px 1fr;
+    gap: 0 1.5rem; padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num-big {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem;
+    flex-shrink: 0; margin-top: 4px;
+  }
+  .step-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem; color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .step-content p { font-size: 0.93rem; max-width: 60ch; margin-bottom: 0.75rem; }
+  .step-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 500;
+    padding: 2px 8px; border-radius: 4px; margin-bottom: 0.6rem;
+  }
+  .tag-concept { background: #dbeafe; color: #1d4ed8; }
+  .tag-code    { background: #dcfce7; color: #15803d; }
+  .tag-deploy  { background: #fef9c3; color: #a16207; }
+
+  /* ── Code blocks ─────────────────────── */
+  .code-wrap { position: relative; margin: 0.75rem 0; }
+  pre {
+    background: var(--ink); color: #e2e8f0;
+    border-radius: 8px; padding: 1.25rem 1.5rem;
+    font-family: var(--font-mono); font-size: 0.82rem;
+    line-height: 1.7; overflow-x: auto;
+    white-space: pre;
+  }
+  .copy-btn {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    font-size: 0.75rem; padding: 3px 10px;
+    background: rgba(255,255,255,0.1); color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px; cursor: pointer; transition: all 0.2s;
+    font-family: var(--font-sans);
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+  .copy-btn.ok { color: #86efac; border-color: #86efac; }
+  .c-green { color: #86efac; }
+  .c-blue  { color: #93c5fd; }
+  .c-amber { color: #fcd34d; }
+  .c-muted { color: #64748b; }
+
+  /* ── Callout boxes ───────────────────── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: #eef4fb; padding: 0.9rem 1.1rem;
+    border-radius: 0 6px 6px 0; margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ── Two column layout ───────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem;
+  }
+  .card h4 { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .card p  { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  /* ── Preview mockup ──────────────────── */
+  .browser-wrap {
+    border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; margin: 1.5rem 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .browser-bar {
+    background: #f1f1f1; padding: 8px 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .bdot { width: 11px; height: 11px; border-radius: 50%; }
+  .browser-url {
+    flex: 1; background: #fff; border-radius: 4px;
+    padding: 3px 10px; font-size: 0.78rem;
+    color: #555; font-family: var(--font-mono);
+    border: 1px solid #ddd;
+  }
+  .browser-body { padding: 1.5rem; background: #fff; }
+
+  /* ── Checklist ───────────────────────── */
+  .checklist { list-style: none; margin: 1rem 0; }
+  .checklist li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+  }
+  .check.done { background: #dcfce7; color: #16a34a; border: 1px solid #86efac; }
+  .check.todo { background: #f3f4f6; color: #9ca3af; border: 1px solid #e5e7eb; }
+
+  /* ── Footer ──────────────────────────── */
+  footer {
+    background: var(--ink); color: #8892b0;
+    padding: 2.5rem 2rem; text-align: center;
+    font-size: 0.85rem;
+  }
+  footer a { color: #93c5fd; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── Inline code ─────────────────────── */
+  code {
+    font-family: var(--font-mono); font-size: 0.85em;
+    background: var(--surface); padding: 1px 5px;
+    border-radius: 3px; color: var(--accent);
+  }
+
+  /* ── Smooth step highlight ───────────── */
+  .step:target { background: #fefce8; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-brand" href="#">GitHub Pages · Lecture</a>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#basics">HTML basics</a></li>
+    <li><a href="#steps">Steps</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-tag">Biostat 629 · Erin Craig</div>
+  <h1>Sharing your work with Github pages</h1>
+  <p class="subtitle">A walkthrough to create a GitHub Pages site to showcase your work.</p>
+  <div class="hero-actions">
+    <a href="#steps" class="btn-primary">Start the lecture →</a>
+    <a href="https://pages.github.com" class="btn-outline" target="_blank">GitHub Pages docs ↗</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num">6</span>
+      <span class="stat-label">Steps</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">~45</span>
+      <span class="stat-label">Minutes</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">1</span>
+      <span class="stat-label">File to start</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Free</span>
+      <span class="stat-label">To host</span>
+    </div>
+  </div>
+</div>
+
+<!-- Overview -->
+<section id="overview">
+  <div class="container">
+    <h2>What we're building</h2>
+    <p class="section-intro">By the end of this session, each of you will have a live public URL.</p>
+    <div class="two-col">
+      <div class="card">
+        <h4>Why bother?</h4>
+        <p>A project page gives you a place to share your work.</p>
+      </div>
+      <div class="card">
+        <h4>What you need</h4>
+        <p>A GitHub account, your code in a repo, and your figures exported from R as SVG or PNG.</p>
+      </div>
+      <div class="card">
+        <h4>What you'll have at the end</h4>
+        <p>A live URL like
+	<code>yourname.github.io/msk-chord-survival</code> so you can
+	easily share your work.</p>
+      </div>
+      <div class="card">
+        <h4>Data access note</h4>
+        <p> <strong>Don't upload data to Github!</strong> We'll add a footer note with
+	a link to cBioPortal, so others can reproduce your work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HTML Basics -->
+<section id="basics">
+  <div class="container">
+    <h2>HTML basics</h2>
+    <p class="section-intro"> You know R and/or Python! HTML is not so
+    different. Instead of scientific computing, however, HTML encodes how
+    to display information. </p>
+
+    <div class="steps">
+
+      <!-- Tags -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">1</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Core concept</span>
+          <h3>Tags are like function calls</h3>
+          <p> Suppose you wanted to make text bold. In R, you would
+      wrap your content in a function that looks something like this:
+      <code>bold("hello")</code>. In HTML you wrap content in a tag:
+      <code>&lt;strong&gt;hello&lt;/strong&gt;</code> (strong means
+      bold here). The opening tag turns something on, the closing tag (with the <code>/</code>) turns it off.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted"># R — you wrap content in functions</span>
+bold("hello")
+italic("world")
+
+<span class="c-muted">&lt;!-- HTML — you wrap content in tags --&gt;</span>
+&lt;<span class="c-green">strong</span>&gt;hello&lt;/<span class="c-green">strong</span>&gt;        <span class="c-muted">&lt;!-- bold --&gt;</span>
+&lt;<span class="c-green">em</span>&gt;world&lt;/<span class="c-green">em</span>&gt;             <span class="c-muted">&lt;!-- italic --&gt;</span>
+&lt;<span class="c-green">p</span>&gt;a paragraph&lt;/<span class="c-green">p</span>&gt;       <span class="c-muted">&lt;!-- paragraph --&gt;</span>
+&lt;<span class="c-green">h1</span>&gt;big heading&lt;/<span class="c-green">h1</span>&gt;     <span class="c-muted">&lt;!-- heading --&gt;</span>
+&lt;<span class="c-green">h2</span>&gt;smaller&lt;/<span class="c-green">h2</span>&gt;         <span class="c-muted">&lt;!-- subheading --&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nesting -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">2</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Core concept</span>
+          <h3>Nesting is like nested lists in R</h3>
+          <p>Tags can go inside other tags, just like nested lists in
+      R. The structure is a tree, where outer tags are parents and
+      inner tags are children. Indentation makes it readable but
+      doesn't affect how it works (unlike Python, where indentation is
+      necessary).</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted"># R nested list</span>
+list(
+  title = "My project",
+  authors = list("Alice", "Bob")
+)
+
+<span class="c-muted">&lt;!-- HTML nesting --&gt;</span>
+&lt;<span class="c-green">section</span>&gt;
+  &lt;<span class="c-green">h2</span>&gt;My project&lt;/<span class="c-green">h2</span>&gt;
+  &lt;<span class="c-green">ul</span>&gt;
+    &lt;<span class="c-green">li</span>&gt;Alice&lt;/<span class="c-green">li</span>&gt;
+    &lt;<span class="c-green">li</span>&gt;Bob&lt;/<span class="c-green">li</span>&gt;
+  &lt;/<span class="c-green">ul</span>&gt;
+&lt;/<span class="c-green">section</span>&gt;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attributes -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">3</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Core concept</span>
+          <h3>Attributes are like named arguments</h3>
+          <p>Some tags need extra information like where a link goes,
+      or the name of the image file to display You pass this as an <em>attribute</em> inside the opening tag, just like named arguments in a function call.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted"># R named arguments</span>
+read.csv(file="data.csv", header=TRUE)
+
+<span class="c-muted">&lt;!-- HTML attributes --&gt;</span>
+&lt;<span class="c-green">a</span> href=<span class="c-amber">"https://github.com"</span>&gt;My repo&lt;/<span class="c-green">a</span>&gt;  <span class="c-muted">&lt;!-- link --&gt;</span>
+&lt;<span class="c-green">img</span> src=<span class="c-amber">"figures/km.svg"</span> alt=<span class="c-amber">"KM curve"</span>&gt; <span class="c-muted">&lt;!-- image --&gt;</span>
+
+<span class="c-muted">&lt;!-- class= lets you apply CSS styles --&gt;</span>
+&lt;<span class="c-green">p</span> class=<span class="c-amber">"big-text"</span>&gt;This paragraph is styled.&lt;/<span class="c-green">p</span>&gt;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- HTML vs CSS -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">4</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Core concept</span>
+          <h3>HTML is the content, and CSS governs the global formatting</h3>
+          <p>If you want to change what the page <em>says</em>, edit the HTML. If you want to change how it <em>looks</em>, edit the CSS.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted"># R: data and presentation are separate</span>
+df |> ggplot(aes(x, y)) + geom_line() + theme_minimal()
+
+<span class="c-muted">&lt;!-- HTML: content --&gt;</span>
+&lt;<span class="c-green">p</span> class=<span class="c-amber">"intro"</span>&gt;We analyzed 4,449 patients.&lt;/<span class="c-green">p</span>&gt;
+
+<span class="c-muted">/* CSS: presentation — in style.css */</span>
+.intro {
+  font-size: 1.2rem;
+  color: #0f4c81;
+  font-style: italic;
+}</pre>
+         
+
+      <!-- Tags cheatsheet -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">5</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Reference</span>
+          <h3>The tags we'll use</h3>
+          <p>Here is a set of useful tags for your project page:</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted">&lt;!-- HEADINGS --&gt;</span>
+&lt;<span class="c-green">h1</span>&gt;Page title&lt;/<span class="c-green">h1</span>&gt;
+&lt;<span class="c-green">h2</span>&gt;Section heading&lt;/<span class="c-green">h2</span>&gt;
+&lt;<span class="c-green">h3</span>&gt;Subsection&lt;/<span class="c-green">h3</span>&gt;
+
+<span class="c-muted">&lt;!-- TEXT --&gt;</span>
+&lt;<span class="c-green">p</span>&gt;A paragraph of text.&lt;/<span class="c-green">p</span>&gt;
+&lt;<span class="c-green">strong</span>&gt;Bold text&lt;/<span class="c-green">strong</span>&gt;
+&lt;<span class="c-green">em</span>&gt;Italic text&lt;/<span class="c-green">em</span>&gt;
+
+<span class="c-muted">&lt;!-- LISTS --&gt;</span>
+&lt;<span class="c-green">ul</span>&gt;                       <span class="c-muted">&lt;!-- bullet list --&gt;</span>
+  &lt;<span class="c-green">li</span>&gt;First item&lt;/<span class="c-green">li</span>&gt;
+  &lt;<span class="c-green">li</span>&gt;Second item&lt;/<span class="c-green">li</span>&gt;
+&lt;/<span class="c-green">ul</span>&gt;
+
+<span class="c-muted">&lt;!-- LINKS AND IMAGES --&gt;</span>
+&lt;<span class="c-green">a</span> href=<span class="c-amber">"https://..."</span>&gt;Link text&lt;/<span class="c-green">a</span>&gt;
+&lt;<span class="c-green">img</span> src=<span class="c-amber">"figures/km.svg"</span> alt=<span class="c-amber">"KM curve"</span>&gt;
+
+<span class="c-muted">&lt;!-- LAYOUT CONTAINERS --&gt;</span>
+&lt;<span class="c-green">section</span>&gt; ... &lt;/<span class="c-green">section</span>&gt;  <span class="c-muted">&lt;!-- a page section --&gt;</span>
+&lt;<span class="c-green">div</span>&gt; ... &lt;/<span class="c-green">div</span>&gt;          <span class="c-muted">&lt;!-- a generic box --&gt;</span>
+
+<span class="c-muted">&lt;!-- FIGURE WITH CAPTION --&gt;</span>
+&lt;<span class="c-green">figure</span>&gt;
+  &lt;<span class="c-green">img</span> src=<span class="c-amber">"figures/km.svg"</span> alt=<span class="c-amber">"KM curve"</span>&gt;
+  &lt;<span class="c-green">figcaption</span>&gt;Figure 1. KM curves by BRCA2 status.&lt;/<span class="c-green">figcaption</span>&gt;
+&lt;/<span class="c-green">figure</span>&gt;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customising -->
+      <div class="step">
+        <div class="step-num-big" style="background:#6d28d9">6</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Customisation</span>
+          <h3>Changing colors and fonts</h3>
+          <p>Open <code>style.css</code>. The very top has a block called <code>:root { }</code> — this is the only section you need to edit to completely restyle the page. Change a hex code, save, and your browser preview updates instantly.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted">/* style.css — edit ONLY this block to restyle */</span>
+:root {
+  <span class="c-blue">--ink</span>:     <span class="c-amber">#1a1a2e</span>;   <span class="c-muted">/* headings                */</span>
+  <span class="c-blue">--body</span>:    <span class="c-amber">#3d3d5c</span>;   <span class="c-muted">/* body text               */</span>
+  <span class="c-blue">--muted</span>:   <span class="c-amber">#7c7c9a</span>;   <span class="c-muted">/* captions and labels     */</span>
+  <span class="c-blue">--accent</span>:  <span class="c-amber">#0f4c81</span>;   <span class="c-muted">/* links and highlights    */</span>
+  <span class="c-blue">--surface</span>: <span class="c-amber">#f4f6fb</span>;   <span class="c-muted">/* section background      */</span>
+  <span class="c-blue">--border</span>:  <span class="c-amber">#e2e4ed</span>;   <span class="c-muted">/* lines and dividers      */</span>
+
+  <span class="c-blue">--font-main</span>: Georgia, serif; <span class="c-muted">/* swap for any Google Font */</span>
+}
+
+<span class="c-muted">/* To use a Google Font:
+   1. Go to fonts.google.com
+   2. Pick a font → "Get font" → copy the &lt;link&gt; tag
+   3. Paste it into the &lt;head&gt; of index.html
+   4. Then change --font-main here:              */</span>
+  <span class="c-blue">--font-main</span>: <span class="c-amber">'Lora'</span>, serif;</pre>
+          </div>
+          <div class="callout">
+            <strong>Find hex codes:</strong> <a href="https://coolors.co" target="_blank">coolors.co</a> generates palettes (hit spacebar to shuffle) · <a href="https://colorhunt.co" target="_blank">colorhunt.co</a> has curated four-color sets.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Steps -->
+<section id="steps">
+  <div class="container">
+    <h2>Lecture steps</h2>
+    <p class="section-intro">Work through these in order. Each step has the concept, the code, and a preview of what you're building.</p>
+
+    <div class="steps">
+
+      <!-- Step 1 -->
+      <div class="step" id="step-1">
+        <div class="step-num-big">1</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Concept</span>
+          <h3>What is GitHub Pages?</h3>
+          <p>GitHub Pages is a free static site hosting service built
+      into every repository. It should be straightforward to use. Push an <code>index.html</code> to a
+      <code>docs/</code> folder in your repository, click one button
+      in Settings, and your page will be live at <code>username.github.io/repo-name</code> within about 60 seconds.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted"># Two ways to enable GitHub Pages</span>
+
+<span class="c-muted"># Option A — docs/ folder (recommended)</span>
+<span class="c-green">mkdir</span> docs
+<span class="c-green">touch</span> docs/index.html
+git add docs/ && git commit -m <span class="c-amber">"Add GitHub Pages site"</span>
+git push
+
+<span class="c-muted"># Then: Settings → Pages → Branch: main / Folder: /docs</span>
+
+<span class="c-muted"># Your site goes live at:</span>
+<span class="c-blue">https://username.github.io/msk-chord-survival</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step" id="step-2">
+        <div class="step-num-big">2</div>
+        <div class="step-content">
+          <span class="step-tag tag-concept">Concept</span>
+          <h3>Page structure — the HTML skeleton</h3>
+          <p>For our project, you need five sections: a hero, a data description, a methods section, a results section, and author info. Use semantic HTML — <code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code> — not just <code>&lt;div&gt;</code>s.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted">&lt;!-- docs/index.html --&gt;</span>
+&lt;<span class="c-blue">!DOCTYPE html</span>&gt;
+&lt;<span class="c-green">html</span> lang=<span class="c-amber">"en"</span>&gt;
+&lt;<span class="c-green">head</span>&gt;
+  &lt;<span class="c-blue">meta</span> charset=<span class="c-amber">"UTF-8"</span>&gt;
+  &lt;<span class="c-blue">title</span>&gt;My project with MSK-CHORD&lt;/<span class="c-blue">title</span>&gt;
+  &lt;<span class="c-blue">link</span> rel=<span class="c-amber">"stylesheet"</span> href=<span class="c-amber">"style.css"</span>&gt;
+&lt;/<span class="c-green">head</span>&gt;
+&lt;<span class="c-green">body</span>&gt;
+  &lt;<span class="c-green">header</span>&gt; <span class="c-muted">...nav...</span> &lt;/<span class="c-green">header</span>&gt;
+  &lt;<span class="c-green">main</span>&gt;
+    &lt;<span class="c-blue">section</span> id=<span class="c-amber">"hero"</span>&gt;    <span class="c-muted">&lt;!-- title, pitch, links --&gt;</span>
+    &lt;<span class="c-blue">section</span> id=<span class="c-amber">"data"</span>&gt;    <span class="c-muted">&lt;!-- MSK-CHORD cohort --&gt;</span>
+    &lt;<span class="c-blue">section</span> id=<span class="c-amber">"methods"</span>&gt; <span class="c-muted">&lt;!-- model, covariates --&gt;</span>
+    &lt;<span class="c-blue">section</span> id=<span class="c-amber">"results"</span>&gt; <span class="c-muted">&lt;!-- KM curves, HRs --&gt;</span>
+    &lt;<span class="c-blue">section</span> id=<span class="c-amber">"team"</span>&gt;    <span class="c-muted">&lt;!-- authors --&gt;</span>
+  &lt;/<span class="c-green">main</span>&gt;
+  &lt;<span class="c-green">footer</span>&gt; <span class="c-muted">...data access note...</span> &lt;/<span class="c-green">footer</span>&gt;
+&lt;/<span class="c-green">body</span>&gt;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step" id="step-3">
+        <div class="step-num-big">3</div>
+        <div class="step-content">
+          <span class="step-tag tag-code">CSS</span>
+          <h3>Typography and color</h3>
+          <p>Use CSS custom properties for your palette. Choose clean,
+      easy-to-read fonts. Use <code>max-width: 100ch</code> on paragraphs for readable line length.</p>
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><span class="c-muted">/* style.css */</span>
+:root {
+  <span class="c-blue">--ink</span>:    <span class="c-amber">#1a1a2e</span>;   <span class="c-muted">/* headings       */</span>
+  <span class="c-blue">--body</span>:   <span class="c-amber">#3d3d5c</span>;   <span class="c-muted">/* body text      */</span>
+  <span class="c-blue">--muted</span>:  <span class="c-amber">#7c7c9a</span>;   <span class="c-muted">/* captions, meta */</span>
+  <span class="c-blue">--accent</span>: <span class="c-amber">#0f4c81</span>;   <span class="c-muted">/* MSK blue       */</span>
+
+  <span class="c-blue">--font-serif</span>: Georgia, serif;
+  <span class="c-blue">--font-sans</span>:  system-ui, sans-serif;
+  <span class="c-blue">--font-mono</span>:  monospace;
+}
+
+h1, h2, h3 {
+  font-family: var(<span class="c-blue">--font-serif</span>);
+  color: var(<span class="c-blue">--ink</span>);
+}
+h1 { font-size: <span class="c-green">clamp</span>(2rem, 5vw, 3.2rem); }
+
+p  { max-width: <span class="c-amber">90ch</span>; }   <span class="c-muted">/* ~65 chars/line */</span>
+
+code {
+  font-family: var(<span class="c-blue">--font-mono</span>);
+  background: <span class="c-amber">#f4f6fb</span>; padding: 1px 5px;
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step" id="step-4">
+        <div class="step-num-big">4</div>
+        <div class="step-content">
+          <span class="step-tag tag-code">HTML + CSS · 10 min</span>
+          <h3>The hero section</h3>
+	  <p>What is a hero section?</p>
+	  <ul>
+	    <li>A hero section is the big block at the top of a webpage 
+	    that gives the main goals of the page etc.</li>
+	    <li>Your hero should answer in 3 seconds:
+	    <ul>
+	      <li>What dataset?</li>
+	      <li>What question?</li>
+	      <li>What did you find?</li>
+	    </ul>
+	  </li>
+	  <li>A common structure is: <em>"We [method] to [outcome] using [data], 
+  finding [result]."</em> But please feel free to use your own creativity and style
+      to make this personal (and help it stand out!). </li> 
+</ul>
+
+          <div class="browser-wrap">
+            <div class="browser-bar">
+              <div class="bdot" style="background:#ff5f57"></div>
+              <div class="bdot" style="background:#ffbd2e"></div>
+              <div class="bdot" style="background:#28c840"></div>
+              <div class="browser-url">username.github.io/msk-chord-survival</div>
+            </div>
+            <div class="browser-body">
+              <div style="display:inline-block;font-size:10px;background:#dbeafe;color:#1d4ed8;padding:3px 10px;border-radius:20px;font-weight:500;margin-bottom:10px">MSK-CHORD · 2026</div>
+              <div style="font-family:Georgia,serif;font-size:1.3rem;color:#1a1a2e;font-weight:700;line-height:1.25;margin-bottom:8px">Genomic Predictors of Survival<br>in the MSK-CHORD Cohort</div>
+              <div
+            style="font-size:0.85rem;color:#3d3d5c;line-height:1.6;max-width:380px;margin-bottom:12px">MADE
+            UP EXAMPLE: We applied a survival model to 1,000 MSK-CHORD patients, identifying BRCA2 LOH as an independent predictor of time to metastasis (HR&nbsp;=&nbsp;1.42,&nbsp;p&nbsp;&lt;&nbsp;0.001).</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+                <span style="background:#1a1a2e;color:#fff;padding:5px 12px;border-radius:5px;font-size:0.8rem;font-weight:500">Read report</span>
+                <span style="border:1.5px solid #1a1a2e;color:#1a1a2e;padding:5px 12px;border-radius:5px;font-size:0.8rem">Analysis code ↗</span>
+                <span style="border:1.5px solid #1a1a2e;color:#1a1a2e;padding:5px 12px;border-radius:5px;font-size:0.8rem">MSK-CHORD data ↗</span>
+              </div>
+              <div style="display:flex;gap:0;border:1px solid #e2e4ed;border-radius:8px;overflow:hidden;display:inline-flex">
+                <div style="padding:10px 16px;text-align:center;border-right:1px solid #e2e4ed"><div style="font-family:Georgia,serif;font-weight:700;font-size:1.1rem;color:#1a1a2e">1,000</div><div style="font-size:0.7rem;color:#7c7c9a;text-transform:uppercase;letter-spacing:.04em">Patients</div></div>
+                <div style="padding:10px 16px;text-align:center;border-right:1px solid #e2e4ed"><div style="font-family:Georgia,serif;font-weight:700;font-size:1.1rem;color:#1a1a2e">HR 1.42</div><div style="font-size:0.7rem;color:#7c7c9a;text-transform:uppercase;letter-spacing:.04em">Top predictor</div></div>
+                <div style="padding:10px 16px;text-align:center"><div style="font-family:Georgia,serif;font-weight:700;font-size:1.1rem;color:#1a1a2e">18</div><div style="font-size:0.7rem;color:#7c7c9a;text-transform:uppercase;letter-spacing:.04em">Tumor types</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-wrap">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre>&lt;<span class="c-green">section</span> id=<span class="c-amber">"hero"</span>&gt;
+  &lt;<span class="c-blue">span</span> class=<span class="c-amber">"tag"</span>&gt;MSK-CHORD · 2026&lt;/<span class="c-blue">span</span>&gt;
+  &lt;<span class="c-green">h1</span>&gt;Genomic Predictors of Survival&lt;<span class="c-blue">br</span>&gt;
+      in the MSK-CHORD Cohort&lt;/<span class="c-green">h1</span>&gt;
+  &lt;<span class="c-blue">p</span> class=<span class="c-amber">"lead"</span>&gt;
+    MADE UP EXAMPLE: We applied a survival model to
+    1,000 MSK-CHORD patients, identifying BRCA2 LOH
+    as an independent predictor of time to metastasis
+    (HR = 1.42, p &amp;lt; 0.001).
+  &lt;/<span class="c-blue">p</span>&gt;
+  &lt;<span class="c-blue">div</span> class=<span class="c-amber">"actions"</span>&gt;
+    &lt;<span class="c-blue">a</span> href=<span class="c-amber">"paper.pdf"</span>&gt;Read report&lt;/<span class="c-blue">a</span>&gt;
+    &lt;<span class="c-blue">a</span> href=<span class="c-amber">"https://github.com/..."</span>&gt;See code ↗&lt;/<span class="c-blue">a</span>&gt;
+  &lt;/<span class="c-blue">div</span>&gt;
+  &lt;<span class="c-blue">div</span> class=<span class="c-amber">"stats"</span>&gt;
+    &lt;<span class="c-blue">div</span>&gt;&lt;<span class="c-blue">strong</span>&gt;1,000&lt;/<span class="c-blue">strong</span>&gt; Patients&lt;/<span class="c-blue">div</span>&gt;
+    &lt;<span class="c-blue">div</span>&gt;&lt;<span class="c-blue">strong</span>&gt;HR 1.42&lt;/<span class="c-blue">strong</span>&gt; Top predictor&lt;/<span class="c-blue">div</span>&gt;
+    &lt;<span class="c-blue">div</span>&gt;&lt;<span class="c-blue">strong</span>&gt;18&lt;/<span class="c-blue">strong</span>&gt; Tumor types&lt;/<span class="c-blue">div</span>&gt;
+  &lt;/<span class="c-blue">div</span>&gt;
+&lt;/<span class="c-green">section</span>&gt;</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+<div class="step" id="step-5">
+  <div class="step-num-big">5</div>
+  <div class="step-content">
+    <span class="step-tag tag-code">HTML + CSS · 10 min</span>
+    <h3>Results section — adding your figures</h3>
+    <p>First export your figure from R into the
+    <code>docs/figures/</code> folder. Then add a
+    <code>&lt;figure&gt;</code> block to your HTML pointing to
+    it. (Or, use a figure you've already generated for your report,
+    and just move it to the <code>docs/figures/</code> folder!)</p>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><span class="c-muted"># Step 1: export from R into your docs/figures/ folder</span>
+<span class="c-green">ggsave</span>(<span class="c-amber">"docs/figures/figure1.png"</span>, my_plot, width=6, height=4, dpi=144)</pre>
+    </div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <pre><span class="c-muted">&lt;!-- Step 2: add this to your index.html --&gt;</span>
+&lt;<span class="c-green">figure</span>&gt;
+  &lt;<span class="c-green">p</span> class=<span class="c-amber">"fig-finding"</span>&gt;Your key finding in one sentence.&lt;/<span class="c-green">p</span>&gt;
+  &lt;<span class="c-green">img</span> src=<span class="c-amber">"figures/figure1.png"</span> alt=<span class="c-amber">"description of figure"</span>&gt;
+  &lt;<span class="c-green">figcaption</span>&gt;Figure 1. Your caption here.&lt;/<span class="c-green">figcaption</span>&gt;
+&lt;/<span class="c-green">figure</span>&gt;</pre>
+    </div>
+    <div class="callout">
+      <strong>Two figures?</strong> Just copy the whole <code>&lt;figure&gt;</code> block and change the filename and caption. They'll sit side by side automatically on a wide screen and stack on a narrow one.
+    </div>
+  </div>
+</div>
+
+
+      <!-- Step 6 -->
+      <div class="step" id="step-6">
+        <div class="step-num-big">6</div>
+        <div class="step-content">
+          <span class="step-tag tag-deploy">Deploy</span>
+          <h3>Deploy and share</h3>
+          <p>Almost done! Add a data access note to your footer, then
+      push your <code>docs/</code> folder to Github and enable Pages in Settings.</p>
+
+          <ul class="checklist">
+            <li><span class="check done">✓</span> <code>docs/index.html</code> created</li>
+            <li><span class="check done">✓</span> KM curves and forest plot exported as SVG</li>
+            <li><span class="check done">✓</span> Analysis code
+	    committed to repo</li>
+	    <li><span class="check todo"></span> Data access note added to footer</li>
+            <li><span class="check todo"></span> Settings → Pages → Branch: main / Folder: /docs</li>
+
+          </ul>
+
+	  <div class="code-wrap">
+  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+  <pre><span class="c-muted">&lt;!-- Add this to your index.html --&gt;</span>
+&lt;<span class="c-green">footer</span>&gt;
+  &lt;<span class="c-green">p</span>&gt;
+    Patient-level MSK-CHORD data are available through
+    &lt;<span class="c-green">a</span> href=<span class="c-amber">"https://cbioportal.org"</span>&gt;cBioPortal&lt;/<span class="c-green">a</span>&gt;
+    under controlled access. Analysis code is available
+    under the MIT license.
+  &lt;/<span class="c-green">p</span>&gt;
+&lt;/<span class="c-green">footer</span>&gt;</pre>
+</div>
+
+<div class="code-wrap">
+  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+  <pre><span class="c-muted"># Then push and go live</span>
+git add docs/
+git commit -m <span class="c-amber">"Launch GitHub Pages site"</span>
+git push origin main
+
+<span class="c-muted"># Your site is now live at:</span>
+<span class="c-blue">https://username.github.io/msk-chord-survival</span></pre>
+</div>
+            
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Resources -->
+<section id="resources">
+  <div class="container">
+    <h2>Resources</h2>
+    <div class="two-col">
+      <div class="card">
+        <h4><a href="https://coolors.co" target="_blank">Coolors ↗</a></h4>
+        <p>Palette generator — hit spacebar to cycle through combinations until you find one you like. Copy the hex codes into <code>style.css</code>.</p>
+      </div>
+      <div class="card">
+        <h4><a href="https://fonts.google.com" target="_blank">Google Fonts ↗</a></h4>
+        <p>Free web fonts. Pick one, click "Get font", copy the <code>&lt;link&gt;</code> tag into your <code>&lt;head&gt;</code>, then update <code>--font-main</code> in <code>style.css</code>.</p>
+      </div>
+      <div class="card">
+        <h4><a href="https://colorhunt.co" target="_blank">Color Hunt ↗</a></h4>
+        <p>Curated four-color palettes. Good for finding a full set of colors that already work together — just map them to <code>--ink</code>, <code>--accent</code>, etc.</p>
+      </div>
+      <div class="card">
+        <h4><a href="https://colorhunt.cohttps://colororacle.org" target="_blank">Color Oracle ↗</a></h4>
+        <p>See in real time what people with common color vision
+	impairments will see when they look at your page.</p>
+      </div>
+      <div class="card">
+        <h4><a href="https://pages.github.com" target="_blank">GitHub Pages docs ↗</a></h4>
+        <p>Official documentation. The "Getting started" guide covers everything from zero to live in 10 minutes.</p>
+      </div>
+      <div class="card">
+        <h4><a href="https://cbioportal.org/study/summary?id=msk_chord_2024" target="_blank">MSK-CHORD on cBioPortal ↗</a></h4>
+        <p>Controlled-access data portal. Link to this from your data access footer note.</p>
+      </div>
+      <div class="card">
+        <h4><a href="../student-template.zip">Student Template ⬇</a></h4>
+        <p>Download the starter files for your project. Unzip, open in your editor, and follow the steps above to publish on GitHub Pages.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>Built for the U-Mich Biostatistics and Health Data Science · <a href="https://pages.github.com">GitHub Pages</a> · <a href="https://cbioportal.org">cBioPortal</a></p>
+  <p style="margin-top:0.5rem;font-size:0.78rem;opacity:0.6">This lecture page is itself hosted on GitHub Pages — view source to see it in action.</p>
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const pre = btn.nextElementSibling;
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('ok');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>
