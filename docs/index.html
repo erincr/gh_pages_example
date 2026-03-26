@@ -455,7 +455,9 @@ df |> ggplot(aes(x, y)) + geom_line() + theme_minimal()
   color: #0f4c81;
   font-style: italic;
 }</pre>
-         
+          </div>
+        </div>
+      </div>
 
       <!-- Tags cheatsheet -->
       <div class="step">
@@ -549,27 +551,14 @@ df |> ggplot(aes(x, y)) + geom_line() + theme_minimal()
       <div class="step" id="step-1">
         <div class="step-num-big">1</div>
         <div class="step-content">
-          <span class="step-tag tag-concept">Concept</span>
-          <h3>What is GitHub Pages?</h3>
-          <p>GitHub Pages is a free static site hosting service built
-      into every repository. It should be straightforward to use. Push an <code>index.html</code> to a
-      <code>docs/</code> folder in your repository, click one button
-      in Settings, and your page will be live at <code>username.github.io/repo-name</code> within about 60 seconds.</p>
-          <div class="code-wrap">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="c-muted"># Two ways to enable GitHub Pages</span>
-
-<span class="c-muted"># Option A — docs/ folder (recommended)</span>
-<span class="c-green">mkdir</span> docs
-<span class="c-green">touch</span> docs/index.html
-git add docs/ && git commit -m <span class="c-amber">"Add GitHub Pages site"</span>
-git push
-
-<span class="c-muted"># Then: Settings → Pages → Branch: main / Folder: /docs</span>
-
-<span class="c-muted"># Your site goes live at:</span>
-<span class="c-blue">https://username.github.io/msk-chord-survival</span></pre>
+          <span class="step-tag tag-concept">Getting started</span>
+          <h3>Download the template and let's look at it together</h3>
+          <p>Download the student template below and unzip it. Open the <code>docs/index.html</code> file in a text editor/RStudio/VS code/your choice. We'll look at it together before you start editing.</p>
+          <p>The template has everything you need — HTML, CSS, and a <code>figures/</code> folder. Every place you need to make a change is marked with a <code>CHANGE</code> comment.</p>
+          <div class="callout">
+            <strong>Download:</strong> <a href="student-template.zip">student-template.zip ⬇</a> — then unzip and open in a text editor/RStudio/VS code/your choice.
           </div>
+          <p>Once everyone has it open, we'll walk through the structure together before you start filling it in.</p>
         </div>
       </div>
 
@@ -633,7 +622,7 @@ h1, h2, h3 {
 }
 h1 { font-size: <span class="c-green">clamp</span>(2rem, 5vw, 3.2rem); }
 
-p  { max-width: <span class="c-amber">90ch</span>; }   <span class="c-muted">/* ~65 chars/line */</span>
+p  { max-width: <span class="c-amber">90ch</span>; }   <span class="c-muted">/* ~90 chars/line */</span>
 
 code {
   font-family: var(<span class="c-blue">--font-mono</span>);
@@ -781,15 +770,22 @@ code {
 &lt;/<span class="c-green">footer</span>&gt;</pre>
 </div>
 
-<div class="code-wrap">
-  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-  <pre><span class="c-muted"># Then push and go live</span>
-git add docs/
-git commit -m <span class="c-amber">"Launch GitHub Pages site"</span>
-git push origin main
+<p>Now let's create a GitHub repository to hold your project.</p>
+<div class="callout">
+  <strong>First, create a repo:</strong> Go to 
+  <a href="https://github.com" target="_blank">github.com</a> → 
+  click the <strong>+</strong> in the top right → 
+  <strong>New repository</strong> → give it a name like 
+  <code>msk-chord-survival</code> → set it to <strong>Public</strong> → 
+  click <strong>Create repository</strong>.
+</div>
 
-<span class="c-muted"># Your site is now live at:</span>
-<span class="c-blue">https://username.github.io/msk-chord-survival</span></pre>
+<div class="callout">
+  <strong>Upload by hand:</strong> Go to your repo on github.com → 
+  click <strong>Add file → Upload files</strong> → drag your whole 
+  <code>docs/</code> folder in → click <strong>Commit changes</strong>.
+  Then go to Settings → Pages → Branch: main / Folder: /docs → Save.
+  Your site will be live within about 60 seconds.
 </div>
             
 
@@ -818,7 +814,7 @@ git push origin main
         <p>Curated four-color palettes. Good for finding a full set of colors that already work together — just map them to <code>--ink</code>, <code>--accent</code>, etc.</p>
       </div>
       <div class="card">
-        <h4><a href="https://colorhunt.cohttps://colororacle.org" target="_blank">Color Oracle ↗</a></h4>
+        <h4><a href="https://colororacle.org" target="_blank">Color Oracle ↗</a></h4>
         <p>See in real time what people with common color vision
 	impairments will see when they look at your page.</p>
       </div>
@@ -831,7 +827,7 @@ git push origin main
         <p>Controlled-access data portal. Link to this from your data access footer note.</p>
       </div>
       <div class="card">
-        <h4><a href="https://github.com/erincr/gh_pages_example/blob/main/student-template.zip">Student Template ⬇</a></h4>
+        <h4><a href="student-template.zip">Student Template ⬇</a></h4>
         <p>Download the starter files for your project. Unzip, open in your editor, and follow the steps above to publish on GitHub Pages.</p>
       </div>
     </div>
